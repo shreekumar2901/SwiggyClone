@@ -1,0 +1,23 @@
+{
+  "name": "swiggy",
+  "version": "1.0.0",
+  "description": "Swiggy Clone App",
+  "homepage": "https://github.com/shreekumar2901/SwiggyClone#readme",
+  "bugs": {
+    "url": "https://github.com/shreekumar2901/SwiggyClone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreekumar2901/SwiggyClone.git"
+  },
+  "license": "ISC",
+  "author": "Shreekumar Hegde",
+  "type": "commonjs",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.0"
+  }
+}
