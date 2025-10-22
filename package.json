@@ -16,7 +16,8 @@
   "scripts": {
     "test": "jest",
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "clean": "rm -rf node_modules/ dist/ .parcel-cache/"
   },
   "devDependencies": {
     "parcel": "^2.16.0"
