@@ -17,7 +17,7 @@ const RestaurantCard = ({ restaurant }) => {
         </span>
         <span className="res-meta-item res-meta-price">
           <span className="res-meta-icon">₹</span>
-          {restaurant.info.costForTwo}
+          {restaurant.info.costForTwo / 100} for Two
         </span>
         <span className="res-meta-item res-meta-time">
           <span className="res-meta-icon">⏱</span>

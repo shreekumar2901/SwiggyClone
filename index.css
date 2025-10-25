@@ -335,3 +335,108 @@
 .res-meta-time .res-meta-icon {
   font-size: 12px;
 }
+.res-card.shimmer-card {
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: shimmerPop 0.4s ease;
+}
+
+.res-card.shimmer-card:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.shimmer-image {
+  height: 140px;
+  width: 100%;
+}
+
+.shimmer-content {
+  padding: 18px 16px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shimmer-line {
+  height: 14px;
+  border-radius: 999px;
+  opacity: 0.9;
+}
+
+.shimmer-line-lg {
+  width: 70%;
+  height: 18px;
+}
+
+.shimmer-line-md {
+  width: 55%;
+}
+
+.shimmer-line-sm {
+  width: 40%;
+}
+
+.shimmer-meta {
+  display: flex;
+  gap: 10px;
+}
+
+.shimmer-pill {
+  display: inline-flex;
+  height: 24px;
+  width: 82px;
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+.shimmer-pill-sm {
+  width: 68px;
+}
+
+.shimmer-gradient {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    120deg,
+    rgba(226, 232, 240, 0.45),
+    rgba(226, 232, 240, 0.75),
+    rgba(226, 232, 240, 0.45)
+  );
+}
+
+.shimmer-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: shimmerSweep 1.9s linear infinite;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shimmerPop {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
