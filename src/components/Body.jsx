@@ -8,10 +8,8 @@ import Shimmer from "./Shimmer";
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchRestaurants = async () => {
-    setIsLoading(true);
     const data = await fetch(RESTAURANT_API);
     const json = await data.json();
     setRestaurants(
@@ -20,7 +18,6 @@ const Body = () => {
     setAllRestaurants(
       json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
     );
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const Body = () => {
     <div className="body">
       <Search onFiltersChange={filterChangeHandler} />
       <div className="res-container">
-        {isLoading ? (
+        {restaurants.length == 0 ? (
           <Shimmer count={10} />
         ) : (
           restaurants.map((restaurant) => (
