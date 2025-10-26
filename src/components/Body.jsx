@@ -30,6 +30,23 @@ const Body = () => {
   const filterChangeHandler = (filters) => {
     setRestaurants((_) => {
       let filtered = allRestaurants;
+      if (filters.searchText.length > 0) {
+        const searchText = filters.searchText.toLowerCase();
+        // Search Filter for Restaurant Name
+        filtered = filtered.filter((r) => {
+          const cardInfo = r.card.card.info;
+          if (cardInfo.name.toLowerCase().includes(searchText)) {
+            return true;
+          }
+          if (
+            cardInfo.cuisines.some((cuisine) => {
+              return cuisine.toLowerCase().includes(searchText);
+            })
+          ) {
+            return true;
+          }
+        });
+      }
       if (filters.topRated) {
         filtered = filtered.filter(
           (r) => parseFloat(r.card.card.info.avgRating) >= 4.2

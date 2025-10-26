@@ -5,13 +5,23 @@ const Search = ({ onFiltersChange }) => {
     topRated: false,
     budgetFriendly: false,
     fastDelivery: false,
+    searchText: "",
   });
+
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     onFiltersChange(filters);
   }, [filters]);
 
-  const togglerFilter = (filterName) => {
+  const changeFilter = (filterName) => {
+    if (filterName === "searchText") {
+      setFilters((prev) => {
+        const next = { ...prev, searchText: searchText };
+        return next;
+      });
+      return;
+    }
     setFilters((prev) => {
       const next = { ...prev, [filterName]: !prev[filterName] };
       return next;
@@ -24,9 +34,18 @@ const Search = ({ onFiltersChange }) => {
         type="text"
         placeholder="Search restaurants..."
         className="search-input"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key == "Enter") changeFilter("searchText");
+        }}
       />
       <div className="search-actions">
-        <button className="search-button" type="button">
+        <button
+          className="search-button"
+          type="button"
+          onClick={() => changeFilter("searchText")}
+        >
           Search
         </button>
         <details className="filter-dropdown">
@@ -40,7 +59,7 @@ const Search = ({ onFiltersChange }) => {
               }`}
               type="button"
               data-filter="top-rated"
-              onClick={() => togglerFilter("topRated")}
+              onClick={() => changeFilter("topRated")}
             >
               Top Rated Restaurants
             </button>
@@ -50,7 +69,7 @@ const Search = ({ onFiltersChange }) => {
               }`}
               type="button"
               data-filter="budget"
-              onClick={() => togglerFilter("budgetFriendly")}
+              onClick={() => changeFilter("budgetFriendly")}
             >
               Budget Friendly
             </button>
@@ -60,7 +79,7 @@ const Search = ({ onFiltersChange }) => {
               }`}
               type="button"
               data-filter="fast-delivery"
-              onClick={() => togglerFilter("fastDelivery")}
+              onClick={() => changeFilter("fastDelivery")}
             >
               Fast Delivery
             </button>
