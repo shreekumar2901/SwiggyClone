@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 import RestaurantCard from "./RestaurantCard";
 import { RESTAURANT_API } from "../utils/constants";
@@ -8,21 +8,19 @@ import Shimmer from "./Shimmer";
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchRestaurants = async () => {
-    try {
-      setIsLoading(true);
-      const data = await fetch(RESTAURANT_API);
-      const json = await data.json();
-      const list =
-        json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards ||
-        [];
-      setAllRestaurants(list);
-      setRestaurants(list);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    const data = await fetch(RESTAURANT_API);
+    const json = await data.json();
+    setRestaurants(
+      json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
+    );
+    setAllRestaurants(
+      json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
+    );
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -30,28 +28,27 @@ const Body = () => {
   }, []);
 
   const filterChangeHandler = (filters) => {
-    let filtered = allRestaurants;
-
-    if (filters.topRated) {
-      filtered = filtered.filter(
-        (r) => parseFloat(r.card.card.info.avgRating) >= 4.2
-      );
-    }
-
-    if (filters.budgetFriendly) {
-      filtered = filtered.filter((r) => {
-        const costValue = parseInt(r.card.card.info.costForTwo) / 100;
-        return costValue <= 300;
-      });
-    }
-
-    if (filters.fastDelivery) {
-      filtered = filtered.filter(
-        (r) => r.card.card.info.sla.deliveryTime <= 35
-      );
-    }
-
-    setRestaurants(filtered);
+    setRestaurants((_) => {
+      let filtered = allRestaurants;
+      if (filters.topRated) {
+        filtered = filtered.filter(
+          (r) => parseFloat(r.card.card.info.avgRating) >= 4.2
+        );
+      }
+      if (filters.budgetFriendly) {
+        filtered = filtered.filter((r) => {
+          const costValue = parseInt(r.card.card.info.costForTwo) / 100;
+          if (costValue <= 300) return true;
+          return false;
+        });
+      }
+      if (filters.fastDelivery) {
+        filtered = filtered.filter(
+          (r) => r.card.card.info.sla.deliveryTime <= 30
+        );
+      }
+      return filtered;
+    });
   };
 
   return (
