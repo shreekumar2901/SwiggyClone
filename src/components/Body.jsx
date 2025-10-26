@@ -32,12 +32,13 @@ const Body = () => {
       let filtered = allRestaurants;
       if (filters.searchText.length > 0) {
         const searchText = filters.searchText.toLowerCase();
-        // Search Filter for Restaurant Name
         filtered = filtered.filter((r) => {
           const cardInfo = r.card.card.info;
+          // Search by Restaurant Name
           if (cardInfo.name.toLowerCase().includes(searchText)) {
             return true;
           }
+          // Search by Cuisine Name
           if (
             cardInfo.cuisines.some((cuisine) => {
               return cuisine.toLowerCase().includes(searchText);
