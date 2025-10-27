@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import RestaurantCard from "./RestaurantCard";
-import { RESTAURANT_API } from "../utils/constants";
+import { RESTAURANT_API, PROXY_URI } from "../utils/constants";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
 
@@ -10,7 +10,9 @@ const Body = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   const fetchRestaurants = async () => {
-    const data = await fetch(RESTAURANT_API);
+    const data = await fetch(
+      PROXY_URI + "?url=" + encodeURIComponent(RESTAURANT_API)
+    );
     const json = await data.json();
     setRestaurants(
       json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
