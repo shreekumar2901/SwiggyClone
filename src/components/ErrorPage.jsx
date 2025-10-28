@@ -1,8 +1,35 @@
 import { useRouteError } from "react-router-dom";
 
+const ErrorDetails = ({ error }) => {
+  if (!error) return null;
+
+  const status = error.status || error.statusCode;
+  const title = error.statusText || error.title || null;
+  const message =
+    error.data ||
+    error.message ||
+    (typeof error === "string" ? error : null);
+
+  return (
+    <div className="error-detail">
+      {(status || title) && (
+        <div className="error-detail-status">
+          {status && <span className="error-detail-code">{status}</span>}
+          {title && (
+            <span className="error-detail-title">{title}</span>
+          )}
+        </div>
+      )}
+      {message ? (
+        <pre className="error-detail-message">{String(message)}</pre>
+      ) : null}
+    </div>
+  );
+};
+
 const ErrorPage = () => {
-  const err = useRouteError();
-  console.error(err);
+  const error = useRouteError();
+
   return (
     <section className="error-page">
       <div className="error-graphic">
@@ -27,6 +54,8 @@ const ErrorPage = () => {
             Contact Support
           </a>
         </div>
+
+        <ErrorDetails error={error} />
       </div>
     </section>
   );
