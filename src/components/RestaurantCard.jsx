@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CDN_URL } from "../utils/constants";
 
 const RestaurantCard = ({ restaurant }) => {
   return (
-    <NavLink
+    <Link
       to={`/restaurant/${restaurant.info.id}`}
       className="res-card-nav-link"
     >
@@ -30,7 +30,7 @@ const RestaurantCard = ({ restaurant }) => {
           </span>
         </div>
       </div>
-    </NavLink>
+    </Link>
   );
 };
 export default RestaurantCard;
