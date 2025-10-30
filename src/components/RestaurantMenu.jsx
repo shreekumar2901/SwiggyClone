@@ -231,7 +231,7 @@ const RestaurantMenu = () => {
                     </div>
                     <div className="menu-item-meta">
                       <span className="menu-item-price">
-                        {item.price / 100}
+                        ₹{item.price / 100}
                       </span>
                     </div>
                     <p className="menu-item-description">{item.description}</p>
