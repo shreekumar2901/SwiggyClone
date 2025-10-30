@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { BASE_URL, CDN_URL } from "../utils/constants";
+import Shimmer from "./Shimmer";
+
 const dummyMenu = {
   name: "Spice Symphony",
   cuisines: ["Pan-Asian", "Modern Indian", "Desserts"],
@@ -7,11 +11,8 @@ const dummyMenu = {
   deliveryTime: "32 mins",
   distance: "3.4 km away",
   location: "Church Street • Bengaluru",
-  offers: [
-    { title: "FLAT 20% OFF", description: "Use code SYMPHONY20" },
-    { title: "FREE DESSERT", description: "On orders above ₹799" },
-    { title: "20% CASHBACK", description: "Pay with Swiggy Money" },
-  ],
+  heroImage:
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80",
   categories: [
     {
       title: "Recommended",
@@ -98,59 +99,112 @@ const dummyMenu = {
 };
 
 const RestaurantMenu = () => {
-  const {
-    name,
-    cuisines,
-    rating,
-    ratingCount,
-    costForTwo,
-    deliveryTime,
-    distance,
-    location,
-    offers,
-    categories,
-  } = dummyMenu;
+  const { heroImage } = dummyMenu;
+
+  const [resInfo, setResInfo] = useState({});
+  const [menuInfo, setMenuInfo] = useState([]);
+
+  useEffect(() => {
+    fetchRestaurantMenu();
+  }, []);
+
+  const fetchRestaurantMenu = async () => {
+    const data = await fetch(BASE_URL + "/listRestaurantMenu/123456");
+    const json = await data.json();
+    setResInfo(json?.data?.cards[2]?.card?.card?.info);
+    setMenuInfo(
+      json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
+    );
+  };
+
+  if (!resInfo || Object.keys(resInfo).length === 0 || menuInfo.length === 0)
+    return <Shimmer count={10} />;
+
+  const restaurantName = resInfo?.name ?? dummyMenu.name;
+
+  const heroImageSrc = resInfo?.cloudinaryImageId
+    ? `${CDN_URL}${resInfo.cloudinaryImageId}`
+    : heroImage;
+
+  const cuisineLabels =
+    resInfo?.cuisines && resInfo.cuisines.length > 0
+      ? resInfo.cuisines
+      : dummyMenu.cuisines;
+
+  const ratingValue = resInfo?.avgRating ?? dummyMenu.rating;
+  const ratingSummary = resInfo?.totalRatingsString ?? dummyMenu.ratingCount;
+  const costForTwoValue = resInfo?.costForTwo ?? dummyMenu.costForTwo;
+  const deliveryValue = resInfo?.sla?.slaString ?? dummyMenu.deliveryTime;
+  const distanceValue =
+    resInfo?.sla?.lastMileTravelString ?? dummyMenu.distance;
+  const localityValue = resInfo?.locality ?? dummyMenu.location;
+  const areaValue =
+    resInfo?.areaName ?? resInfo?.locality ?? dummyMenu.location;
+  const serviceMessage = `Serving ${areaValue} with freshly prepared meals.`;
+  const categories = [];
+
+  menuInfo.forEach((card) => {
+    if (!card?.card?.card?.itemCards) return;
+    const menu = card.card.card;
+    const category = {
+      title: menu.title,
+      items: menu.itemCards.map((itemCard) => {
+        return itemCard.card.info;
+      }),
+    };
+    categories.push(category);
+  });
 
   return (
     <div className="menu-page">
       <section className="menu-hero">
-        <div className="menu-hero-info">
-          <h1 className="menu-title">{name}</h1>
-          <p className="menu-subtitle">{cuisines.join(" • ")}</p>
+        <div className="menu-hero-body">
+          <header className="menu-hero-header">
+            <h1 className="menu-title">{restaurantName}</h1>
+            <p className="menu-subtitle">{cuisineLabels.join(" • ")}</p>
+            <p className="menu-location">
+              <span className="menu-location-icon">📍</span>
+              {localityValue}
+            </p>
+          </header>
           <div className="menu-meta">
             <span className="menu-meta-chip">
               <span className="menu-meta-icon">★</span>
-              {rating}{" "}
-              <span className="menu-meta-secondary">({ratingCount})</span>
+              {ratingValue}{" "}
+              <span className="menu-meta-secondary">({ratingSummary})</span>
             </span>
             <span className="menu-meta-chip">
               <span className="menu-meta-icon">⏱</span>
-              {deliveryTime}
+              {deliveryValue}
             </span>
             <span className="menu-meta-chip">
               <span className="menu-meta-icon">₹</span>
-              {costForTwo}
+              {costForTwoValue}
             </span>
             <span className="menu-meta-chip">
-              <span className="menu-meta-icon">📍</span>
-              {distance}
+              <span className="menu-meta-icon">📏</span>
+              {distanceValue}
             </span>
           </div>
-          <p className="menu-location">{location}</p>
+          <div className="menu-hero-service">
+            <span className="menu-hero-badge">Since 2014</span>
+            <p className="menu-hero-copy">{serviceMessage}</p>
+          </div>
         </div>
-        <aside className="menu-offers">
-          <h2 className="menu-offers-title">Today&apos;s Offers</h2>
-          <ul className="menu-offers-list">
-            {offers.map((offer) => (
-              <li key={offer.title} className="menu-offer-card">
-                <span className="menu-offer-title">{offer.title}</span>
-                <span className="menu-offer-description">
-                  {offer.description}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <div className="menu-hero-visual">
+          <div className="menu-hero-photo">
+            <img
+              className="menu-hero-image"
+              src={heroImageSrc}
+              alt={`${restaurantName} restaurant`}
+              loading="lazy"
+            />
+            <span className="menu-hero-gradient" aria-hidden="true" />
+          </div>
+          <p className="menu-hero-credit">
+            Image representative of the restaurant ambience.
+          </p>
+        </div>
       </section>
 
       <section className="menu-content">
@@ -166,48 +220,23 @@ const RestaurantMenu = () => {
             </header>
             <div className="menu-items">
               {category.items.map((item) => (
-                <div className="menu-item-card" key={item.name}>
+                <div className="menu-item-card" key={item.id}>
                   <div className="menu-item-content">
                     <div className="menu-item-header">
                       <h3 className="menu-item-title">{item.name}</h3>
-                      <div className="menu-item-flags">
-                        {item.isPopular && (
-                          <span className="menu-item-flag menu-item-popular">
-                            Popular
-                          </span>
-                        )}
-                        {item.tags?.map((tag) => (
-                          <span className="menu-item-flag" key={tag}>
-                            {tag}
-                          </span>
-                        ))}
-                        {item.isVegetarian && (
-                          <span className="menu-item-flag menu-item-veg">
-                            Veg
-                          </span>
-                        )}
-                        {item.glutenFree && (
-                          <span className="menu-item-flag menu-item-gf">
-                            Gluten Free
-                          </span>
-                        )}
-                      </div>
                     </div>
                     <div className="menu-item-meta">
-                      <span className="menu-item-price">{item.price}</span>
-                      {item.spiceLevel && (
-                        <span className="menu-item-spice">
-                          Spice: {item.spiceLevel}
-                        </span>
-                      )}
+                      <span className="menu-item-price">
+                        {item.price / 100}
+                      </span>
                     </div>
                     <p className="menu-item-description">{item.description}</p>
                   </div>
-                  {item.image && (
+                  {item.imageId && (
                     <div className="menu-item-media">
                       <img
                         className="menu-item-image"
-                        src={item.image}
+                        src={CDN_URL + item.imageId}
                         alt={item.name}
                         loading="lazy"
                       />

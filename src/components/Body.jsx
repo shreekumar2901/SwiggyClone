@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import RestaurantCard from "./RestaurantCard";
-import { RESTAURANT_API, PROXY_URI } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
 
@@ -10,15 +10,15 @@ const Body = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   const fetchRestaurants = async () => {
-    const data = await fetch(
-      PROXY_URI + "?url=" + encodeURIComponent(RESTAURANT_API)
-    );
+    const data = await fetch(BASE_URL + "/listRestaurants");
     const json = await data.json();
     setRestaurants(
-      json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
+      json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants || []
     );
     setAllRestaurants(
-      json?.data?.cards[1]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards || []
+      json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants || []
     );
   };
 
@@ -32,7 +32,7 @@ const Body = () => {
       if (filters.searchText.length > 0) {
         const searchText = filters.searchText.toLowerCase();
         filtered = filtered.filter((r) => {
-          const cardInfo = r.card.card.info;
+          const cardInfo = r.info;
           // Search by Restaurant Name
           if (cardInfo.name.toLowerCase().includes(searchText)) {
             return true;
@@ -48,21 +48,21 @@ const Body = () => {
         });
       }
       if (filters.topRated) {
-        filtered = filtered.filter(
-          (r) => parseFloat(r.card.card.info.avgRating) >= 4.2
-        );
+        filtered = filtered.filter((r) => parseFloat(r.info.avgRating) >= 4.2);
       }
       if (filters.budgetFriendly) {
         filtered = filtered.filter((r) => {
-          const costValue = parseInt(r.card.card.info.costForTwo) / 100;
-          if (costValue <= 300) return true;
+          // Do a regex match for &400 for two. I wanna extract the number
+          const costMatch = r.info.costForTwo.match(/₹(\d+)/);
+          if (costMatch && costMatch.length > 1) {
+            const cost = parseInt(costMatch[1]);
+            return cost <= 300;
+          }
           return false;
         });
       }
       if (filters.fastDelivery) {
-        filtered = filtered.filter(
-          (r) => r.card.card.info.sla.deliveryTime <= 30
-        );
+        filtered = filtered.filter((r) => r.info.sla.deliveryTime <= 30);
       }
       return filtered;
     });
@@ -76,10 +76,7 @@ const Body = () => {
           <Shimmer count={10} />
         ) : (
           restaurants.map((restaurant) => (
-            <RestaurantCard
-              key={restaurant.card.card.info.id}
-              restaurant={restaurant.card.card}
-            />
+            <RestaurantCard key={restaurant.info.id} restaurant={restaurant} />
           ))
         )}
       </div>
