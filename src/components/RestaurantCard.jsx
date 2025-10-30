@@ -3,7 +3,10 @@ import { CDN_URL } from "../utils/constants";
 
 const RestaurantCard = ({ restaurant }) => {
   return (
-    <NavLink to={`/restaurant/${restaurant.info.id}`}>
+    <NavLink
+      to={`/restaurant/${restaurant.info.id}`}
+      className="res-card-nav-link"
+    >
       <div className="res-card">
         <img
           className="res-logo"
