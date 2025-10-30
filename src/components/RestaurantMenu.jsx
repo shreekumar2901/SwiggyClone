@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { BASE_URL, CDN_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
+import ShimmerMenu from "./ShimmerMenu";
 
+// Kept dummy data to use in case API data is missing
 const dummyMenu = {
   name: "Spice Symphony",
   cuisines: ["Pan-Asian", "Modern Indian", "Desserts"],
@@ -118,7 +120,7 @@ const RestaurantMenu = () => {
   };
 
   if (!resInfo || Object.keys(resInfo).length === 0 || menuInfo.length === 0)
-    return <Shimmer count={10} />;
+    return <ShimmerMenu />;
 
   const restaurantName = resInfo?.name ?? dummyMenu.name;
 
