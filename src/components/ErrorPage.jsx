@@ -6,18 +6,14 @@ const ErrorDetails = ({ error }) => {
   const status = error.status || error.statusCode;
   const title = error.statusText || error.title || null;
   const message =
-    error.data ||
-    error.message ||
-    (typeof error === "string" ? error : null);
+    error.data || error.message || (typeof error === "string" ? error : null);
 
   return (
     <div className="error-detail">
       {(status || title) && (
         <div className="error-detail-status">
           {status && <span className="error-detail-code">{status}</span>}
-          {title && (
-            <span className="error-detail-title">{title}</span>
-          )}
+          {title && <span className="error-detail-title">{title}</span>}
         </div>
       )}
       {message ? (
