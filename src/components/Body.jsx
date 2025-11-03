@@ -4,10 +4,15 @@ import RestaurantCard from "./RestaurantCard";
 import { BASE_URL } from "../utils/constants";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
+import OfflineStatus from "./OfflineStatus";
+
+import useOnlineStatus from "../hooks/useOnlineStatus";
 
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+
+  const isOnline = useOnlineStatus();
 
   const fetchRestaurants = async () => {
     const data = await fetch(BASE_URL + "/listRestaurants");
@@ -23,8 +28,9 @@ const Body = () => {
   };
 
   useEffect(() => {
+    if (!isOnline) return;
     fetchRestaurants();
-  }, []);
+  }, [isOnline]);
 
   const filterChangeHandler = (filters) => {
     setRestaurants((_) => {
@@ -67,6 +73,10 @@ const Body = () => {
       return filtered;
     });
   };
+
+  if (!isOnline) {
+    return <OfflineStatus />;
+  }
 
   return (
     <div className="body">

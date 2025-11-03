@@ -1694,6 +1694,173 @@
   font-size: 14px;
 }
 
+.offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 245, 234, 0.92), rgba(255, 239, 216, 0.96));
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 80;
+}
+
+.offline-card {
+  width: min(420px, 100%);
+  background: #fffefc;
+  border-radius: 18px;
+  padding: 26px 24px;
+  box-shadow: 0 28px 60px rgba(249, 115, 22, 0.18);
+  color: #7c3412;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  border: 1px solid rgba(249, 137, 37, 0.18);
+}
+
+.offline-icon {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: rgba(249, 171, 88, 0.18);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.offline-wave {
+  position: absolute;
+  border-radius: 999px;
+  border: 2px solid rgba(249, 137, 37, 0.4);
+  animation: offline-wave 2s ease-in-out infinite;
+}
+
+.offline-wave-outer {
+  width: 56px;
+  height: 56px;
+}
+
+.offline-wave-inner {
+  width: 36px;
+  height: 36px;
+  animation-delay: 0.3s;
+}
+
+.offline-symbol {
+  position: relative;
+  z-index: 1;
+  font-size: 26px;
+  font-weight: 700;
+  color: #f97316;
+}
+
+.offline-heading {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #9a3412;
+}
+
+.offline-message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a35523;
+}
+
+.offline-tips {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-self: stretch;
+  color: #b3743b;
+  font-size: 13px;
+  text-align: left;
+}
+
+.offline-tips li {
+  line-height: 1.5;
+}
+
+.offline-status {
+  align-self: stretch;
+  margin-top: 6px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 214, 153, 0.55), rgba(255, 189, 109, 0.45));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(249, 137, 37, 0.3);
+}
+
+.offline-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f97316;
+  animation: offline-dot 1.4s ease-in-out infinite;
+}
+
+.offline-status-text {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a3412;
+}
+
+@keyframes offline-wave {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes offline-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 480px) {
+  .offline-overlay {
+    padding: 18px;
+  }
+
+  .offline-card {
+    padding: 22px 20px;
+    gap: 16px;
+  }
+
+  .offline-heading {
+    font-size: 20px;
+  }
+
+  .offline-message,
+  .offline-tips li,
+  .offline-status-text {
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 1024px) {
   .menu-page {
     padding: 28px 18px 48px;
