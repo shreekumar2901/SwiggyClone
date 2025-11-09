@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import RestaurantCard from "./RestaurantCard";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
