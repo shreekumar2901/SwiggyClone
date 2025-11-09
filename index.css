@@ -1,9 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --drop-shadow-logo: 0 4px 10px rgba(15, 23, 42, 0.12);
+}
+
+@layer components {
+  .nav-items-li {
+    @apply relative cursor-pointer text-[15px] font-medium text-gray-700 py-1.5 px-3.5 rounded-full transition-[color,background-color,box-shadow] duration-200 ease-in-out hover:text-white hover:bg-[linear-gradient(135deg,#fbbf24,#f97316)] hover:shadow-[0_10px_24px_rgba(249,115,22,0.22)];
+  }
+  .nav-item {
+    @apply no-underline text-inherit;
+  }
+}
 .app {
   min-height: 100vh;
   background: linear-gradient(180deg, #fafafa 0%, #f4f4f5 40%, #ffffff 100%);
 }
 
-.header {
+/* HEADER CSS */
+/* .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,18 +38,18 @@
 .logo {
   width: 96px;
   filter: drop-shadow(0 4px 10px rgba(15, 23, 42, 0.12));
-}
+} */
 
-.nav-items {
+/* .nav-items {
   list-style-type: none;
   display: flex;
   gap: 18px;
   margin: 0 0 0 auto;
   padding: 0;
   align-items: center;
-}
+} */
 
-.nav-items li {
+/* .nav-items li {
   position: relative;
   cursor: pointer;
   font-size: 15px;
@@ -43,18 +58,18 @@
   padding: 6px 14px;
   border-radius: 999px;
   transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-}
+} */
 
-.nav-items li .nav-item {
+/* .nav-items li .nav-item {
   text-decoration: none;
   color: inherit;
-}
+} */
 
-.nav-items li:hover {
+/* .nav-items li:hover {
   color: #ffffff;
   background: linear-gradient(135deg, #fbbf24, #f97316);
   box-shadow: 0 10px 24px rgba(249, 115, 22, 0.22);
-}
+} */
 
 .body {
   background: linear-gradient(180deg, #f6f4f1 0%, #faf8f5 45%, #ffffff 100%);
@@ -1697,7 +1712,11 @@
 .offline-overlay {
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 245, 234, 0.92), rgba(255, 239, 216, 0.96));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 245, 234, 0.92),
+    rgba(255, 239, 216, 0.96)
+  );
   display: grid;
   place-items: center;
   padding: 24px;
@@ -1792,7 +1811,11 @@
   margin-top: 6px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 214, 153, 0.55), rgba(255, 189, 109, 0.45));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 214, 153, 0.55),
+    rgba(255, 189, 109, 0.45)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
