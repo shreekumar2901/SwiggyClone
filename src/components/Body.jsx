@@ -56,9 +56,9 @@ const Body = () => {
   }
 
   return (
-    <div className="body">
+    <div className="bg-[linear-gradient(180deg,#f6f4f1_0%,#faf8f5_45%,#ffffff_100%)] min-h-[calc(100vh - 120px)] pt-6 pb-8 px-0">
       <Search onFiltersChange={filterChangeHandler} />
-      <div className="res-container">
+      <div className="flex flex-wrap justify-start gap-0 px-0 py-4">
         {restaurants.length == 0 ? (
           <Shimmer count={10} />
         ) : (

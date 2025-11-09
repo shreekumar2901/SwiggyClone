@@ -71,11 +71,20 @@
   box-shadow: 0 10px 24px rgba(249, 115, 22, 0.22);
 } */
 
-.body {
+/* Body CSS */
+/* .body {
   background: linear-gradient(180deg, #f6f4f1 0%, #faf8f5 45%, #ffffff 100%);
   min-height: calc(100vh - 120px);
   padding: 24px 0 32px;
-}
+} */
+
+/* .res-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0 16px;
+} */
 
 .search-container {
   display: flex;
@@ -251,14 +260,6 @@
 
 .filter-item:focus {
   outline: none;
-}
-
-.res-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0;
-  padding: 0 16px;
 }
 
 .res-card {
