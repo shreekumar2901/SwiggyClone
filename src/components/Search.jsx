@@ -29,18 +29,18 @@ const Search = ({ onFiltersChange }) => {
   };
 
   return (
-    <div className="search-container">
+    <div className="flex flex-wrap items-center gap-2.5 mt-4 mx-auto mb-3.5 px-[11px] py-4 max-w-[460px] w-[calc(100% - 32px)] bg-white border border-solid border-slate-900/8 rounded-xl shadow-[0_8px_18px_rgba(15,23,42,0.08)] transition-colors duration-200 ease-in-out focus-within:border-orange-500/50 focus-within:shadow-2xl focus-within:shadow-orange-500/18 placeholder:color-[#9ca3af]">
       <input
+        className="flex-1 border-none outline-none text-[14px] text-[#1f2937] bg-transparent"
         type="text"
         placeholder="Search restaurants..."
-        className="search-input"
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         onKeyDown={(e) => {
           if (e.key == "Enter") changeFilter("searchText");
         }}
       />
-      <div className="search-actions">
+      <div className="flex items-center gap-3 ml-auto">
         <button
           className="search-button"
           type="button"
