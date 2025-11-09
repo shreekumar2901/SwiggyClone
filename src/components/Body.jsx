@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import RestaurantCard from "./RestaurantCard";
-import { BASE_URL } from "../utils/constants";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
 import OfflineStatus from "./OfflineStatus";

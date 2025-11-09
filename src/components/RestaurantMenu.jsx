@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { BASE_URL, CDN_URL } from "../utils/constants";
+import { CDN_URL } from "../utils/constants";
 import ShimmerMenu from "./ShimmerMenu";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../hooks/useRestaurantMenu";
