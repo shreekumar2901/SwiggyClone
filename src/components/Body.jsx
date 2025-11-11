@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromoted } from "./RestaurantCard";
 import Search from "./Search";
 import Shimmer from "./Shimmer";
 import OfflineStatus from "./OfflineStatus";
@@ -6,10 +6,14 @@ import OfflineStatus from "./OfflineStatus";
 import useOnlineStatus from "../hooks/useOnlineStatus";
 import useRestaurants from "../hooks/useRestaurants";
 
+import { shouldPromote } from "../utils/util";
+
 const Body = () => {
   const isOnline = useOnlineStatus();
   const [restaurants, allRestaurants, setRestaurants] =
     useRestaurants(isOnline);
+
+  const RestaurantCardPromoted = withPromoted(RestaurantCard);
 
   const filterChangeHandler = (filters) => {
     let filtered = allRestaurants;
@@ -62,9 +66,19 @@ const Body = () => {
         {restaurants.length == 0 ? (
           <Shimmer count={10} />
         ) : (
-          restaurants.map((restaurant) => (
-            <RestaurantCard key={restaurant.info.id} restaurant={restaurant} />
-          ))
+          restaurants.map((restaurant) =>
+            shouldPromote() ? (
+              <RestaurantCardPromoted
+                key={restaurant.info.id}
+                restaurant={restaurant}
+              />
+            ) : (
+              <RestaurantCard
+                key={restaurant.info.id}
+                restaurant={restaurant}
+              />
+            )
+          )
         )}
       </div>
     </div>
